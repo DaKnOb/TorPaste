@@ -1,60 +1,26 @@
-<html>
-	<head>
-		<title>{{ title }}</title>
-		<link rel="stylesheet" href="/static/bootstrap.css">
-		<link rel="stylesheet" href="/static/bootstrap.css">
-		<link rel="stylesheet" href="/static/style.css">
-	</head>
-
-	<body>
-
-		<div class="row">
-		<div class="col-xs-10 col-xs-offset-1">
-		<nav class="navbar navbar-inverse">
-			<div class="container-fluid">
-				<div class="navbar-header">
-					<a class="navbar-brand" href="/">
-						<img alt="Tor Project" class="torlogo" src="/static/logo.png">
-					</a>
-					<a class="navbar-brand" href="/">TorPaste</a>
-    			</div>
-
-				<ul class="nav navbar-nav">
-					<li><a href="/list">Pastes</a></li>
-				</ul>
-
-				<a href="/new" class="btn btn-primary navbar-btn navbar-right">[+] New Paste</a>
-
-  			</div>
-		</nav>
-		</div>
-		</div>
-
-		<div class="row">
-			<div class="col-xs-10 col-xs-offset-1">
-				<div class="jumbotron">
-					<div class="row">
-						<div class="col-xs-10 col-xs-offset-1">
-							<h2>TorPaste</h2>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-xs-10 col-xs-offset-1">
-							<div class="list-group">
-								{% if "none" in pastes %}
-								<a href="#" class="list-group-item">No pastes yet</a>
-								{% else %}
-								{% for paste in pastes %}
-								<a href="/view/{{paste}}" class="list-group-item">{{paste}}</a>
-								{% endfor %}
-								{% endif %}
-							</div>
-
-						</div>
+{% include 'header.html' %}
+<div class="row">
+	<div class="col-xs-10 col-xs-offset-1">
+		<div class="jumbotron">
+			<div class="row">
+				<div class="col-xs-10 col-xs-offset-1">
+					<h2>TorPaste</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-10 col-xs-offset-1">
+					<div class="list-group">
+						{% if "none" in pastes %}
+							<a href="/new" class="list-group-item">No pastes yet</a>
+						{% else %}
+						{% for paste in pastes %}
+							<a href="/view/{{paste}}" class="list-group-item">{{paste}}</a>
+						{% endfor %}
+						{% endif %}
 					</div>
 				</div>
 			</div>
 		</div>
-
-	</body>
-</html>
+	</div>
+</div>
+{% include 'footer.html' %}
