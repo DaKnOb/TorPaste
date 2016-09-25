@@ -1,4 +1,4 @@
-#!bin/python
+#!/usr/bin/env python2
 
 from flask import *
 from hashlib import sha256
