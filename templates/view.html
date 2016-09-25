@@ -1,15 +1,26 @@
 {% include 'header.html' %}
 <div class="row">
 	<div class="col-xs-10 col-xs-offset-1">
-		<div class="panel panel-default">
-			<div class="panel-body">
-				<pre>{{ content }}</pre>
+		<div class="jumbotron">
+			<div class="row">
+				<div class="col-xs-10 col-xs-offset-1">
+					<h2>TorPaste</h2>
+				</div>
 			</div>
-			<div class="panel-footer">
-				<a href="/raw/{{ pid }}" class="btn btn-info pull-right">Raw</a>
-				<small>Last update: {{date}}</small>
-				<br>
-				<small>Size: {{size}}</small>
+			<div class="row">
+				<div class="col-xs-10 col-xs-offset-1">
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<pre>{{ content }}</pre>
+						</div>
+						<div class="panel-footer">
+							<a href="/raw/{{ pid }}" class="btn btn-info pull-right">Raw</a>
+							<small>Last update: {{date}}</small>
+							<br>
+							<small>Size: {{size}}</small>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

@@ -1,14 +1,25 @@
 {% include 'header.html' %}
-<form class="form-horizontal" action="/new" method="post">
-	<div class="form-group">
-		<div class="col-xs-10 col-xs-offset-1">
-			<textarea class="form-control" rows="5" name="content"></textarea>
+<div class="row">
+	<div class="col-xs-10 col-xs-offset-1">
+		<div class="jumbotron">
+			<div class="row">
+				<div class="col-xs-10 col-xs-offset-1">
+					<h2>TorPaste</h2>
+				</div>
+			</div>
+			<form class="form-horizontal" action="/new" method="post">
+				<div class="form-group">
+					<div class="col-xs-10 col-xs-offset-1">
+						<textarea class="form-control" rows="5" name="content"></textarea>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-xs-10 col-xs-offset-1">
+						<input type="submit" class="btn btn-primary" value="Create New Paste">
+					</div>
+				</div>
+			</form>
 		</div>
 	</div>
-	<div class="form-group">
-		<div class="col-xs-10 col-xs-offset-1">
-			<input type="submit" class="btn btn-primary" value="Create New Paste">
-		</div>
-	</div>
-</form>
+</div>
 {% include 'footer.html' %}
