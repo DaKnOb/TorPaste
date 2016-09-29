@@ -24,9 +24,9 @@
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
 						<li class="{% if page == 'new' %}active{% endif %}">
-							<a href="/new">
-								[+] New Paste
-							</a>
+							<button type="button" class="btn btn-primary" style="margin-top: 5px;" onclick="location.href='/new';">
+      							<span class="glyphicon glyphicon-plus"></span> new paste
+    						</button>
 						</li>
 					</ul>
 				</div>
