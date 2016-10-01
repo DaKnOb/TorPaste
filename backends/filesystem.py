@@ -1,6 +1,6 @@
 #!../bin/python
 
-import exceptions as e
+from . import exceptions as e
 import os
 
 # initializeBackend()
@@ -70,7 +70,7 @@ def updatePasteMetadata(pasteid, metadata):
 		raise e.ErrorException("An issue occured with the local filesystem. Please try again later. If the problem persists, try notifying a system administrator.")
 
 	try:
-		for k, v in metadata.iteritems():
+		for k, v in metadata.items():
 			with open(ppath + "." + k, "w+") as fd:
 				fd.write(v)
 	except:
@@ -120,7 +120,7 @@ def getPasteMetadata(pasteid):
 	try:
 		for f in os.listdir("pastes/" + a + "/" + b + "/"):
 			if (pasteid in f) and ("." in f):
-				t = f.split(".")[1]	
+				t = f.split(".")[1]
 				with open("pastes/" + a + "/" + b + "/" + f, "r") as fd:
 					ret[t] = fd.read()
 	except:
@@ -166,8 +166,8 @@ def getAllPasteIDs():
 					ret.append(k)
 		if ( len ( ret ) == 0 ):
 			return ['none']
-	
+
 		return ret
-	
+
 	except:
 		raise e.ErrorException("An issue occured with the local filesystem. Please try again later. If the problem persists, try notifying a system administrator.")

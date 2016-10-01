@@ -50,7 +50,7 @@
 ## future,  please  think  very carefully before designing your persistent
 ## storage, be it database tables, folders and files, or anything else.
 
-import exceptions as e
+from . import exceptions as e
 
 # initializeBackend()
 ## This method is called when the Flask application starts. Here you can do

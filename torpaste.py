@@ -55,7 +55,7 @@ def newpaste():
 				b.updatePasteMetadata(
 					PasteID,
 					{
-						"date": unicode(int(time.time()))
+						"date": str(int(time.time()))
 					}
 				)
 			except b.e.ErrorException as errmsg:
