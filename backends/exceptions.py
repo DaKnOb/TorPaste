@@ -8,16 +8,16 @@ class ErrorException(Exception):
 	def __init__(self, value):
 		self.value = value
 	def __str__(self):
-		return unicode(self.value)
+		return str(self.value)
 
 class WarningException(Exception):
 	def __init__(self, value):
 		self.value = value
 	def __str__(self):
-		return unicode(self.value)
+		return str(self.value)
 
 class InfoException(Exception):
 	def __init__(self, value):
 		self.value = value
 	def __str__(self):
-		return unicode(self.value)
+		return str(self.value)

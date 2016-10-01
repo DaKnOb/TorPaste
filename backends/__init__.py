@@ -1,2 +1,2 @@
 #!../bin/python
-import exceptions as e
+from . import exceptions as e
