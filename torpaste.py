@@ -31,14 +31,14 @@ def newpaste():
 	else:
 		if(request.form['content']):
 			try:
-				PasteID = str(sha256(request.form['content']).hexdigest())
+				PasteID = str(sha256(request.form['content'].encode()).hexdigest())
 			except:
 				return render_template(
 					"index.html",
 					title = WEBSITE_TITLE,
 					version = VERSION,
 					page = "new",
-					error = "The current version of TorPaste supports ASCII characters only. UTF-8 support is coming soon."
+					error = "Some stranger error occurred, sorry about that. Please try again with a different paste text."
 				)
 			try:
 				b.newPaste(PasteID, request.form['content'])
