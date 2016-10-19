@@ -112,6 +112,8 @@ or `16 k`. Any value that starts with `0` changes this limit to unlimited. *Defa
 `0`
 * `TP_PASTE_LIST_ACTIVE` : Use this variable to enable or disable the paste listing
 available in the `Pastes` menu. *Default:* `True`
+* `TP_ENABLED_PASTE_VISIBILITIES` : Use this variable to select the available paste
+visibilities, separated by a comma. Example: "public,unlisted". *Default:* `public`.
 
 ### Backend ENV Variables
 Each backend may need one or more additional `ENV` variables to work. For example,

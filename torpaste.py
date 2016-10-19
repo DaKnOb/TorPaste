@@ -58,6 +58,15 @@ def new_paste():
                           + format_size(config['MAX_PASTE_SIZE']) + "."
                 )
 
+            if request.form['visibility'] not in config['ENABLED_PASTE_VISIBILITIES']:
+                return render_template(
+                    "index.html",
+                    config = config,
+                    version = VERSION,
+                    page = "new",
+                    error = "The requested paste visibility is not currently supported."
+                )
+
             try:
                 b.new_paste(paste_id, request.form['content'])
             except b.e.ErrorException as errmsg:
@@ -73,7 +82,8 @@ def new_paste():
                 b.update_paste_metadata(
                     paste_id,
                     {
-                        "date": str(int(time.time()))
+                        "date": str(int(time.time())),
+                        "visibility": request.form['visibility']
                     }
                 )
             except b.e.ErrorException as errmsg:
@@ -97,7 +107,6 @@ def new_paste():
                 ),
                 400
             )
-
 
 @app.route("/view/<pasteid>")
 def view_paste(pasteid):
@@ -179,7 +188,6 @@ def view_paste(pasteid):
         page = "view"
     )
 
-
 @app.route("/raw/<pasteid>")
 def raw_paste(pasteid):
     if not pasteid.isalnum():
@@ -232,6 +240,10 @@ def list():
             version = VERSION,
             page = "list"
         )
+
+    # filter pastes to keep the public ones only
+    paste_list = [ paste for paste in paste_list if b.get_paste_metadata_value(paste, 'visibility') == 'public']
+
     return render_template(
         "list.html",
         pastes = paste_list,
@@ -264,13 +276,21 @@ def format_size(size):
     return str(round(size, 1)) + " " + scales[count]
 
 
-# Required Initialization Code
 
 # necessary for local modules import (backends, exceptions)
 sys.path.append('.')
 
-# Handle Environment Variables (for configuration)
 def load_config():
+    """
+    This method reads all configuration variables from environment variables
+    and put them in a dictionary, which is then returned.
+    Environment variables are used for convenience when using Docker (simply add
+    an -e "TP_SOME_CONFIG_VAR=value" to docker run to modify the default 
+    configuration)
+
+    :return: the configuration dictionary
+    """
+
     # Web App <title>
     WEBSITE_TITLE = getenv("TP_WEBSITE_TITLE") or "Tor Paste"
 
@@ -283,7 +303,7 @@ def load_config():
         print("Configured backend (" + BACKEND + ") is not compatible with current version.")
         exit(1)
 
-    # Maximum Paste Size
+    # Maximum Paste Size, expressed in a standard format
     MAX_PASTE_SIZE = getenv("TP_PASTE_MAX_SIZE") or "1 P"
 
     if MAX_PASTE_SIZE[0] == "0":
@@ -309,15 +329,25 @@ def load_config():
         print("An unknown error occured while determining max paste size.")
         exit(1)
 
-    ### Disable the paste listing feature
+    # Disable the paste listing feature
     PASTE_LIST_ACTIVE = getenv("TP_PASTE_LIST_ACTIVE") or True
     if PASTE_LIST_ACTIVE in ["False", "false", 0, "0"]:
         PASTE_LIST_ACTIVE = False
+
+
+    # control the enabled paste visibilities:
+    # public = can be opened by anyone and listed in /list
+    # unlisted = can be opened by anyone, but are not listed in /list
+    ENABLED_PASTE_VISIBILITIES = getenv("TP_ENABLED_PASTE_VISIBILITIES") or 'public,unlisted'
+    ENABLED_PASTE_VISIBILITIES = ENABLED_PASTE_VISIBILITIES.split(',')
+    # remove any potential whitespace
+    ENABLED_PASTE_VISIBILITIES = [visibility.strip() for visibility in ENABLED_PASTE_VISIBILITIES]
 
     return {
         "MAX_PASTE_SIZE": MAX_PASTE_SIZE,
         "WEBSITE_TITLE": WEBSITE_TITLE,
         "PASTE_LIST_ACTIVE": PASTE_LIST_ACTIVE,
+        "ENABLED_PASTE_VISIBILITIES": ENABLED_PASTE_VISIBILITIES,
         "b": b
     }
 
