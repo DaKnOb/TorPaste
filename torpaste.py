@@ -21,7 +21,7 @@ app = Flask(__name__)
 VERSION = check_output(["git", "describe"]).decode("utf-8").replace("\n", "")
 
 # Compatible Backends List
-COMPATIBLE_BACKENDS = ["filesystem"]
+COMPATIBLE_BACKENDS = ["filesystem", "redis"]
 
 # Available list of paste visibilities
 # public: can be viewed by all, is listed in /list
