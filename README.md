@@ -109,6 +109,11 @@ The backend is activated by setting `TP_BACKEND=azure_storage`. Each paste is
 stored as a separate blob which means that this backend supports paste sizes [up to 5TB](https://docs.microsoft.com/en-us/azure/storage/common/storage-scalability-targets).
 Metadata associated with a paste is stored directly on the blob via [custom metadata fields](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-properties-metadata).
 
+### postgres
+This is a backend based on the Postgres database. The backend assumes that you
+have a running Postgres database set up that the application can connect to via
+a connection string. The backend is activated by setting `TP_BACKEND=postgres`.
+
 ## Configuration
 TorPaste can be configured by using `ENV`ironment Variables. The list of available
 variables as well as their actions is below so you can use them to parameterize your
@@ -158,3 +163,8 @@ and how to set up a storage account [here](https://docs.microsoft.com/en-us/azur
   exist, it will be created. *Default:* `torpaste`.
 * `TP_BACKEND_AZURE_STORAGE_TIMEOUT_SECONDS` : Use this variable to set the
   timeout in seconds for all requests to Azure. *Default:* `10`.
+
+#### postgres
+
+* `TP_BACKEND_POSTGRES_DATABASE_CONNECTION` : Use this variable to set the
+  connection string with which to connect to the Postgres database.
