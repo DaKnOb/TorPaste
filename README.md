@@ -109,6 +109,11 @@ The backend is activated by setting `TP_BACKEND=azure_storage`. Each paste is
 stored as a separate blob which means that this backend supports paste sizes [up to 5TB](https://docs.microsoft.com/en-us/azure/storage/common/storage-scalability-targets).
 Metadata associated with a paste is stored directly on the blob via [custom metadata fields](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-properties-metadata).
 
+### sqlite
+This is a backend based on the SQLite database. All pastes and metadata
+are stored in a single-file database. The backend is activated by setting
+`TP_BACKEND=sqlite`.
+
 ## Configuration
 TorPaste can be configured by using `ENV`ironment Variables. The list of available
 variables as well as their actions is below so you can use them to parameterize your
@@ -158,3 +163,10 @@ and how to set up a storage account [here](https://docs.microsoft.com/en-us/azur
   exist, it will be created. *Default:* `torpaste`.
 * `TP_BACKEND_AZURE_STORAGE_TIMEOUT_SECONDS` : Use this variable to set the
   timeout in seconds for all requests to Azure. *Default:* `10`.
+
+#### sqlite
+
+This backend assumes a writable file-system.
+
+* `TP_BACKEND_SQLITE_DATABASE_PATH` : Use this variable to set the path where
+   the sqlite database file will be stored.

@@ -24,6 +24,7 @@ VERSION = check_output(["git", "describe"]).decode("utf-8").replace("\n", "")
 COMPATIBLE_BACKENDS = [
     "filesystem",
     "azure_storage",
+    "sqlite",
 ]
 
 # Available list of paste visibilities
