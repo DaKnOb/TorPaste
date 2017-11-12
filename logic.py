@@ -3,6 +3,9 @@
 import time
 from hashlib import sha256
 
+from backends.exceptions import ErrorException
+from backends.exceptions import WarningException
+
 
 def format_size(size):
     """
@@ -59,7 +62,7 @@ def create_new_paste(content, metadata, config):
 
     try:
         config['b'].new_paste(paste_id, content)
-    except config['b'].e.ErrorException as errmsg:
+    except ErrorException as errmsg:
         return "ERROR", errmsg
 
     try:
@@ -70,7 +73,7 @@ def create_new_paste(content, metadata, config):
                 "visibility": visibility
             }
         )
-    except config['b'].e.ErrorException as errmsg:
+    except ErrorException as errmsg:
         return "ERROR", errmsg
 
     return "OK", paste_id
@@ -102,14 +105,14 @@ def view_existing_paste(paste_id, config):
 
     try:
         paste_content = config['b'].get_paste_contents(paste_id)
-    except config['b'].e.ErrorException as errmsg:
+    except ErrorException as errmsg:
         return "ERROR", errmsg, 500
 
     try:
         paste_date = config['b'].get_paste_metadata_value(paste_id, "date")
-    except config['b'].e.ErrorException as errmsg:
+    except ErrorException as errmsg:
         return "ERROR", errmsg, 500
-    except config['b'].e.WarningException as errmsg:
+    except WarningException as errmsg:
         return "WARNING", errmsg, 500
 
     return "OK", (paste_content, paste_date), 200
@@ -132,7 +135,7 @@ def get_paste_listing(config, filters={}, fdefaults={}):
 
     try:
         paste_list = b.get_all_paste_ids(filters, fdefaults)
-    except b.e.ErrorException as errmsg:
+    except ErrorException as errmsg:
         return "ERROR", errmsg, 500
 
     if (paste_list[0] == "none"):
