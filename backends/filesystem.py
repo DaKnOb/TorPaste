@@ -43,7 +43,7 @@ def new_paste(paste_id, paste_content):
             mode="w+"
         ) as fd:
             fd.write(paste_content)
-    except:
+    except Exception:
         raise e.ErrorException(
             "An issue occurred with the local filesystem. Please try again " +
             "later. If the problem persists, try notifying a system " +
@@ -78,7 +78,7 @@ def update_paste_metadata(paste_id, metadata):
         for j in os.listdir("pastes/" + a + "/" + b):
             if ("." in j) and (paste_id in j):
                 os.remove("pastes/" + a + "/" + b + "/" + j)
-    except:
+    except Exception:
         raise e.ErrorException(
             "An issue occurred with the local filesystem. Please try again " +
             "later. If the problem persists, try notifying a system " +
@@ -93,7 +93,7 @@ def update_paste_metadata(paste_id, metadata):
                 mode="w+"
             ) as fd:
                 fd.write(v)
-    except:
+    except Exception:
         raise e.ErrorException(
             "An issue occurred with the local filesystem. Please try again " +
             "later. If the problem persists, try notifying a system " +
@@ -138,7 +138,7 @@ def get_paste_contents(paste_id):
             mode="r"
         ) as fd:
             return fd.read()
-    except:
+    except Exception:
         raise e.ErrorException(
             "An issue occurred with the local filesystem. Please try again " +
             "later. If the problem persists, try notifying a system " +
@@ -171,7 +171,7 @@ def get_paste_metadata(paste_id):
                     mode="r"
                 ) as fd:
                     ret[t] = fd.read()
-    except:
+    except Exception:
         raise e.ErrorException(
             "An issue occurred with the local filesystem. Please try again " +
             "later. If the problem persists, try notifying a system " +
@@ -203,7 +203,7 @@ def get_paste_metadata_value(paste_id, key):
 
     try:
         return get_paste_metadata(paste_id)[key]
-    except:
+    except Exception:
         return None
 
 
@@ -233,7 +233,7 @@ def get_all_paste_ids(filters={}, fdefaults={}):
                     if "." in k:
                         continue
                     allPastes.append(k)
-    except:
+    except Exception:
         raise e.ErrorException(
             "An issue occurred with the local filesystem. Please try again " +
             "later. If the problem persists, try notifying a system " +

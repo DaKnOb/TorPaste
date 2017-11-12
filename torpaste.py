@@ -239,7 +239,7 @@ def load_config():
     try:
         AMOUNT = int(MAX_PASTE_SIZE[0])
         UNIT = MAX_PASTE_SIZE[1]
-    except:
+    except Exception:
         print("Invalid TP_PASTE_MAX_SIZE: " + " ".join(MAX_PASTE_SIZE))
         exit(1)
 
@@ -250,7 +250,7 @@ def load_config():
 
     try:
         MAX_PASTE_SIZE = AMOUNT * 1024**orders.index(UNIT)
-    except:
+    except Exception:
         print("An unknown error occured while determining max paste size.")
         exit(1)
 
@@ -294,7 +294,7 @@ b = config['b']
 # Initialize Backend
 try:
     b.initialize_backend()
-except:
+except Exception:
     print("Failed to initialize backend")
     exit(1)
 

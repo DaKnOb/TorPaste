@@ -47,7 +47,7 @@ def create_new_paste(content, metadata, config):
 
     try:
         paste_id = str(sha256(content.encode('utf-8')).hexdigest())
-    except:
+    except Exception:
         return "ERROR", "An issue occurred while handling the paste. " +\
             "Please try again later. If the problem persists, try " +\
             "notifying a system administrator."
