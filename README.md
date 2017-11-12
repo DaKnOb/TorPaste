@@ -109,6 +109,13 @@ The backend is activated by setting `TP_BACKEND=azure_storage`. Each paste is
 stored as a separate blob which means that this backend supports paste sizes [up to 5TB](https://docs.microsoft.com/en-us/azure/storage/common/storage-scalability-targets).
 Metadata associated with a paste is stored directly on the blob via [custom metadata fields](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-properties-metadata).
 
+### aws_s3
+This is a backend based on the Amazon AWS S3 storage system. The backend is activated
+by setting `TP_BACKEND=aws_s3`. Each paste is stored as a separate Amazon S3 object and
+has data, a key, and metadata. The key (paste_id) uniquely identifies the object
+(paste) in a bucket. Object metadata is a set of name-value pairs that cannot be
+modified but can be replaced by a metadata copy.
+
 ## Configuration
 TorPaste can be configured by using `ENV`ironment Variables. The list of available
 variables as well as their actions is below so you can use them to parameterize your
@@ -158,3 +165,17 @@ and how to set up a storage account [here](https://docs.microsoft.com/en-us/azur
   exist, it will be created. *Default:* `torpaste`.
 * `TP_BACKEND_AZURE_STORAGE_TIMEOUT_SECONDS` : Use this variable to set the
   timeout in seconds for all requests to Azure. *Default:* `10`.
+
+### aws_s3
+
+This backend assumes that you have an Amazon S3 subscription and a storage account
+in that subscription. You can learn how to set up a new subscription and how to
+set up a storage account [here](http://docs.aws.amazon.com/AmazonS3/latest/gsg/SigningUpforS3.html).
+
+* `TP_BACKEND_AWS_S3_ACCESS_KEY_ID` : Use this variable to set the key id of the
+  Amazon AWS S3 account to use.
+* `TP_BACKEND_AWS_S3_SECRET_ACCESS_KEY` : Use this variable to set the secret key
+  of the Amazon AWS S3 account to use.
+* `TP_BACKEND_AWS_S3_BUCKET` : Use this variable to set the name of the container
+  in which to store pastes and metadata. If the container does not exist, it will
+  be created. Default: torpaste.

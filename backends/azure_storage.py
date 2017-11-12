@@ -1,13 +1,12 @@
-from functools import wraps
-from os import environ
 from os import getenv
 
 from azure.common import AzureException
 from azure.storage.blob import BlockBlobService
 from azure.storage.blob import Include
 
-from backends.exceptions import ErrorException
-
+from backends.utils import getenv_int
+from backends.utils import getenv_required
+from backends.utils import wrap_exception
 
 _ENV_ACCOUNT_NAME = 'TP_BACKEND_AZURE_STORAGE_ACCOUNT_NAME'
 _ENV_ACCOUNT_KEY = 'TP_BACKEND_AZURE_STORAGE_ACCOUNT_KEY'
@@ -22,39 +21,9 @@ _container = None  # type: str
 _timeout = None  # type: int
 
 
-def _wrap_azure_exception(func):
-    @wraps(func)
-    def _adapt_exception_types(*args, **kwargs):
-        try:
-            return func(*args, **kwargs)
-        except AzureException as ex:
-            raise ErrorException(
-                'Error while communicating with the Azure Storage Service'
-            ) from ex
-
-    return _adapt_exception_types
-
-
-def _getenv_required(key):
-    try:
-        return environ[key]
-    except KeyError:
-        raise ErrorException(
-            'Required environment variable %s not set' % key)
-
-
-def _getenv_int(key, default):
-    try:
-        value = environ[key]
-    except KeyError:
-        return default
-
-    try:
-        return int(value)
-    except ValueError:
-        raise ErrorException(
-            'Environment variable %s with value %s '
-            'is not convertible to int' % (key, value))
+_wrap_azure_exception = wrap_exception(
+    AzureException,
+    'Error while communicating with the Azure Storage Service')
 
 
 @_wrap_azure_exception
@@ -64,10 +33,10 @@ def initialize_backend():
     global _timeout
 
     _blob_service = BlockBlobService(
-        account_name=_getenv_required(_ENV_ACCOUNT_NAME),
-        account_key=_getenv_required(_ENV_ACCOUNT_KEY))
+        account_name=getenv_required(_ENV_ACCOUNT_NAME),
+        account_key=getenv_required(_ENV_ACCOUNT_KEY))
     _container = getenv(_ENV_CONTAINER, _DEFAULT_CONTAINER)
-    _timeout = _getenv_int(_ENV_TIMEOUT, _DEFAULT_TIMEOUT)
+    _timeout = getenv_int(_ENV_TIMEOUT, _DEFAULT_TIMEOUT)
 
     _blob_service.create_container(
         _container, fail_on_exist=False, timeout=_timeout)
